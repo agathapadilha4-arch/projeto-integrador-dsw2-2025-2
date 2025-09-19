@@ -125,7 +125,6 @@ Critérios de aceite:
 ### 9.4 Modelagem do banco de dados no POSTGRES
 
 ```sql
-
 -- Drop tables if they exist to start with a clean slate
 DROP TABLE IF EXISTS Livros;
 DROP TABLE IF EXISTS Usuario;
@@ -134,7 +133,7 @@ DROP TABLE IF EXISTS Usuario;
 -- Tabela de Usuários
 -- Armazena informações sobre alunos e professores.
 -- =============================================
-CREATE TABLE Usuario (
+CREATE TABLE Usuarios (
     id SERIAL PRIMARY KEY,
     nome VARCHAR(255) NOT NULL,
     email VARCHAR(255) NOT NULL UNIQUE,
@@ -150,7 +149,7 @@ CREATE TABLE Usuario (
 -- =============================================
 CREATE TABLE Livros (
     id SERIAL PRIMARY KEY,
-    Usuarios_id INT NOT NULL,
+    Usuarios_id INT NOT NULL REFERENCES Usuarios(id),
     titulo VARCHAR(255) NOT NULL,
     autores VARCHAR(255) NOT NULL,
     genero CHAR(1) NOT NULL, -- 't' = terror, 'r' = romance, 'a' = ação, 'f' = fantasia
@@ -160,11 +159,7 @@ CREATE TABLE Livros (
     idioma VARCHAR(50) NOT NULL,
     urlImagem VARCHAR(255),
     dataCriacao TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    dataAtualizacao TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    CONSTRAINT fk_usuario
-        FOREIGN KEY(Usuarios_id)
-        REFERENCES Usuario(id)
-        ON DELETE CASCADE -- Se um usuário for deletado, seus livros também serão.
+    dataAtualizacao TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
 -- =============================================
